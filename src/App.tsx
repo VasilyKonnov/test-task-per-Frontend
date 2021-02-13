@@ -1,25 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Layout from './Layout';
+import LeagueCalendar from './pages/LeagueCalendar';
+import ComandCalendar from './pages/ComandCalendar';
+import LeaguesList from './pages/LeaguesList';
+import ComandList from './pages/ComandList';
 
-function App() {
+function App(props: any) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <Switch>
+          <Route path="/leagues" component={LeagueCalendar} />
+          <Route path="/leagues/:id" component={LeagueCalendar} />
+          <Route path="/leagues/:id/matches?season=:season" component={LeagueCalendar} />
+          <Route path="/comands-list" component={ComandList} />
+          <Route path="/comands" component={ComandCalendar} />
+          <Route path="/" component={LeaguesList} />
+        </Switch>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
