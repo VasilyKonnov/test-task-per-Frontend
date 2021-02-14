@@ -7,6 +7,8 @@ import {
 	NULLIFY_ERROR_MESSAGE,
 	NULLIFY_YEAR_SEASON,
 	GET_YEAR_SEASON,
+	GET_DATE_FROM_TO,
+	NULLIFY_DATE_FROM_TO
 } from './types'
 
 export function showLoader() {
@@ -47,6 +49,23 @@ export function nullifyYearSeason() {
 		type: NULLIFY_YEAR_SEASON
 	}
 }
+
+export function getDateFromTo(payload: any) {
+	return {
+		type: GET_DATE_FROM_TO,
+		payload: payload
+	}
+}
+
+export function nullifyDateFromTo() {
+	return {
+		type: NULLIFY_DATE_FROM_TO
+	}
+}
+
+
+
+
 
 
 export function getErrorMessage(payload: string) {

@@ -6,10 +6,18 @@ import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
 import TableLeagueMatches from "../components/TableLeagueMatches";
 import CustomSelect from "../components/Select";
 import { connect } from "react-redux";
-import { getErrorMessage, nullifyErrorMessage, nullifyYearSeason } from "../redux/actions"
+import {
+	getErrorMessage,
+	nullifyErrorMessage,
+	nullifyYearSeason,
+	getDateFromTo,
+	nullifyDateFromTo
+} from "../redux/actions";
 import CustomDatePicker from "../components/DatePicker";
+import { Button } from "@material-ui/core";
 
 
+// TODO: Вынести интерфейсы в отдельный файл 
 export interface matchesInterface {
 	[x: string]: any;
 	id: number | string,
@@ -21,31 +29,45 @@ export interface matchesInterface {
 	status: string
 }
 
+export interface objectSearchFromTo {
+	dateFrom: number | string,
+	dateTo: number | string,
+}
+
 const LeagueCalendar = (props: any) => {
-
-	const { season, getErrorMessage, nullifyErrorMessage, errorMessage, nullifyYearSeason } = props
-
+	const {
+		season,
+		getErrorMessage,
+		nullifyErrorMessage,
+		errorMessage,
+		nullifyYearSeason,
+		dateFromTo
+	} = props
 	const [league, setLeague] = useState("")
 	const [title, setTitle] = useState("")
 	const [count, setCount] = useState("")
 	const [id, setId] = useState('')
 	const [yearSeason, setYearSeason] = useState('')
-
+	const [fromTo, setFromTo] = useState({ dateFrom: '', dateTo: '' })
 
 	const history = useHistory()
 
-	const getMatches = (idLeague: any, seasonLeague?: any) => {
+	const getMatches = (idLeague: any, seasonLeague?: any, getDateFromToLeague?: any) => {
 		let year = '';
-
 		if (seasonLeague) {
 			year = seasonLeague;
 		}
-
+		let fromTo = '';
+		if (getDateFromToLeague) {
+			fromTo = getDateFromToLeague;
+		}
 		try {
-			getLeague(idLeague, year).then(result => {
+			getLeague(idLeague, year, fromTo).then(result => {
+
 				if (result.message) {
 					return getErrorMessage(result.message);
 				}
+
 				const matches = result.matches.map((item: matchesInterface) => {
 					return {
 						id: item.id,
@@ -67,32 +89,70 @@ const LeagueCalendar = (props: any) => {
 		}
 	}
 
+	const getMatchesFromTo = (id: number | string, dateFromTo: objectSearchFromTo) => {
+		nullifyYearSeason()
+		history.push(`?dateFrom=${dateFromTo.dateFrom}&dateTo=${dateFromTo.dateTo}`)
+		getMatches(id, null, dateFromTo)
+	}
+
 	useEffect(() => {
 		setYearSeason('')
+		setFromTo({ dateFrom: '', dateTo: '' })
+
 		const id = history.location.pathname.substr(9)
-		const seasonId = history.location.search.substr(-4);
+		setId(id)
 
-		console.log('history.location.search.length ', history.location.search.length);
-
-		if (history.location.search.length) {
-			setYearSeason(history.location.search.substr(-4))
-		} else {
-			setYearSeason('')
+		let idSeason = '';
+		let idDateFromTo = {
+			dateFrom: '',
+			dateTo: ''
 		}
-		// setId(id)
+		setFromTo({ dateFrom: '', dateTo: '' })
+		setYearSeason('')
 
-		if (id && seasonId) {
-			getMatches(id, seasonId);
+
+
+		console.log('history.location.search.substr(1, 9) - ', history.location.search.substr(1, 9));
+
+
+		if (history.location.search.substr(1, 8) === 'dateFrom') {
+
+			console.log('history.location.search.substr(1, 8) - ', history.location.search.substr(1, 8));
+			idDateFromTo = {
+				dateFrom: history.location.search.substr(10, 10),
+				dateTo: history.location.search.substr(-10)
+			}
+			setFromTo({
+				dateFrom: history.location.search.substr(10, 10),
+				dateTo: history.location.search.substr(-10)
+			})
+		}
+
+		if (history.location.search.substr(1, 6) === 'season') {
+
+			console.log('history.location.search.substrsubstr(1, 6) - ', history.location.search.substr(1, 6))
+
+			idSeason = history.location.search.substr(-4);
+			setYearSeason(history.location.search.substr(-4))
+		}
+
+		if (id && idDateFromTo.dateFrom.length && idDateFromTo.dateTo.length) {
+			getMatches(id, null, idDateFromTo)
+		} else if (id && idSeason) {
+			getMatches(id, idSeason);
 		} else if (id && season) {
 			getMatches(id, season);
 		} else if (id) {
 			getMatches(id);
 		}
-	}, [season])
 
-	console.log('yearSeason ', yearSeason)
-	console.log('season ', season)
 
+
+
+	}, [season, dateFromTo])
+
+	console.log('fromTo ', fromTo)
+	console.log('dateFromTo ', dateFromTo)
 
 	if (!league && !errorMessage) {
 		return <Loading />
@@ -104,7 +164,9 @@ const LeagueCalendar = (props: any) => {
 				<CustomSelect startValue={yearSeason ? yearSeason : ""} />
 			</form>
 			<h3 style={{ marginTop: "0" }}>или</h3>
-			<CustomDatePicker />
+			<CustomDatePicker
+				starDateFromTo={fromTo.dateFrom.length && fromTo.dateTo.length ? fromTo : ""} />
+			<Button onClick={() => getMatchesFromTo(id, dateFromTo)}>Поиск</Button>
 			{
 				errorMessage
 					?
@@ -120,13 +182,16 @@ const LeagueCalendar = (props: any) => {
 const mapStateToProps = (state: any) => ({
 	loading: state.app.loading,
 	season: state.leagues.season,
-	errorMessage: state.leagues.errorMessage
+	errorMessage: state.leagues.errorMessage,
+	dateFromTo: state.leagues.dateFromTo,
 })
 const mapDispatchToProps = (dispatch: any) => {
 	return {
 		getErrorMessage: (response: string) => dispatch(getErrorMessage(response)),
 		nullifyErrorMessage: () => dispatch(nullifyErrorMessage()),
 		nullifyYearSeason: () => dispatch(nullifyYearSeason()),
+		getDateFromTo: (respons: object) => dispatch(getDateFromTo(respons)),
+		nullifyDateFromTo: () => dispatch(nullifyDateFromTo()),
 	}
 }
 

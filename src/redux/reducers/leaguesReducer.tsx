@@ -4,19 +4,19 @@ import {
 	GET_ERROR_MESSAGE,
 	NULLIFY_ERROR_MESSAGE,
 	GET_YEAR_SEASON,
-	FILTER_DATE_FROM_TO,
-	NULLIFY_YEAR_SEASON
+	NULLIFY_YEAR_SEASON,
+	GET_DATE_FROM_TO,
+	NULLIFY_DATE_FROM_TO,
 } from "../types"
+
+// TODO: возможно стоит переименовать файл из leaguesReduser во что-то другое
 
 const initialState = {
 	leagues: [],
 	teams: [],
 	errorMessage: '',
 	season: '',
-	dateFromTo: {
-		from: '',
-		to: ''
-	}
+	dateFromTo: {}
 }
 
 const leaguesReducer = (state = initialState, action: any) => {
@@ -33,8 +33,12 @@ const leaguesReducer = (state = initialState, action: any) => {
 		case NULLIFY_YEAR_SEASON: {
 			return { ...state, season: '' }
 		}
-		case FILTER_DATE_FROM_TO: {
+		case GET_DATE_FROM_TO: {
+			console.log('GET_DATE_FROM_TO action ', action)
 			return { ...state, dateFromTo: action.payload }
+		}
+		case NULLIFY_DATE_FROM_TO: {
+			return { ...state, dateFromTo: "" }
 		}
 
 		case GET_ERROR_MESSAGE: {

@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { connect } from 'react-redux';
-import { getYearSeason } from "../redux/actions"
+import { getYearSeason, nullifyDateFromTo } from "../redux/actions"
 import { Link } from "react-router-dom";
 
 
@@ -30,11 +30,12 @@ const getMenuItemYers = (beforeThisYear: number) => {
 }
 
 function CustomSelect(props: any) {
-	const { getYearSeason, season, startValue } = props
+	const { getYearSeason, season, startValue, nullifyDateFromTo } = props
 
 	const classes = useStyles();
 
 	const handleChange = (event: ChangeEvent<{ value: unknown }>) => {
+		nullifyDateFromTo()
 		getYearSeason(event.target.value as number)
 	};
 	return (
@@ -67,7 +68,8 @@ const mapStateToProps = (state: any) => ({
 })
 const mapDispatchToProps = (dispatch: any) => {
 	return {
-		getYearSeason: (season: any) => dispatch(getYearSeason(season))
+		getYearSeason: (season: any) => dispatch(getYearSeason(season)),
+		nullifyDateFromTo: () => dispatch(nullifyDateFromTo()),
 	}
 }
 

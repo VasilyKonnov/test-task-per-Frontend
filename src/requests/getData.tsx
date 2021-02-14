@@ -61,11 +61,10 @@ export const getLeague = async (id: number | string, year?: any, dateFromTo?: an
 
 	if (year) {
 		console.log('getLeague year ', year)
-
 		filterYear = `?season=${year}`
 	}
 	if (dateFromTo) {
-		filterDateFromTo = `?dateFrom=${dateFromTo.start}&dateTo${dateFromTo.end}`
+		filterDateFromTo = `?dateFrom=${dateFromTo.dateFrom}&dateTo=${dateFromTo.dateTo}`
 	}
 	const url = `https://api.football-data.org/v2/competitions/${id}/matches${filterYear}${filterDateFromTo}`
 
