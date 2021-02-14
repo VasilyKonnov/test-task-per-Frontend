@@ -1,9 +1,9 @@
 import { combineReducers } from "redux"
 import appReducer from "./reducers/appReducer"
-import leaguesReducer from './reducers/leaguesReducer';
+import matchesReducer from './reducers/matchesReducer';
 
 const rootReducer = combineReducers({
-	leagues: leaguesReducer,
+	leagues: matchesReducer,
 	app: appReducer
 })
 

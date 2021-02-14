@@ -8,13 +8,13 @@ import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
 
 
 
+
 const LeaguesList = (props: any) => {
 
-	const { leagues, loading, requestLeagues, errorMessage, season } = props;
+	const { leagues, loading, requestLeagues, errorMessage } = props;
 
 	useEffect(() => {
 		requestLeagues()
-		// console.log('season ', season)
 	}, [])
 
 	if (errorMessage) {

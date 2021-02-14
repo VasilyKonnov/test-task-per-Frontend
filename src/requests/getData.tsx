@@ -1,27 +1,5 @@
-const API_TOKEN = "0d5df8c05978490ea0958129ea7986b4"
-const TARIF = "?plan=TIER_ONE"
-// TODO: Убрать все консоль-логи
+import { URL_LEAGUES, URL_COMANDS, API_TOKEN, TARIF } from "../constants"
 
-
-export const getTeams = async () => {
-	try {
-		const response = await fetch('https://api.football-data.org/v2/teams/', {
-			method: 'GET',
-			headers: {
-				'X-Auth-Token': API_TOKEN
-			}
-		}).then(function (response) {
-			return response.json();
-		}).then(function (data) {
-			return data;
-		});
-		console.log('getTeams - response', response);
-		return await response;
-	}
-	catch (error) {
-		console.log(error)
-	}
-}
 
 export const getLeagues = async () => {
 
@@ -30,7 +8,7 @@ export const getLeagues = async () => {
 		name: string
 	}
 
-	const response = await fetch(`https://api.football-data.org/v2/competitions${TARIF}`, {
+	const response = await fetch(`${URL_LEAGUES}${TARIF}`, {
 		method: 'GET',
 		headers: {
 			'X-Auth-Token': API_TOKEN
@@ -54,21 +32,25 @@ export const getLeagues = async () => {
 	return await response;
 }
 
-export const getLeague = async (id: number | string, year?: any, dateFromTo?: any) => {
+
+export const getMatches = async (url: string, id: number | string, year?: any, dateFromTo?: any) => {
+
+	let urlApi = 'https://api.football-data.org/v2/teams'
+	if (url) {
+		urlApi = url
+	}
 
 	let filterYear = '';
 	let filterDateFromTo = '';
 
 	if (year) {
-		console.log('getLeague year ', year)
 		filterYear = `?season=${year}`
 	}
 	if (dateFromTo) {
 		filterDateFromTo = `?dateFrom=${dateFromTo.dateFrom}&dateTo=${dateFromTo.dateTo}`
 	}
-	const url = `https://api.football-data.org/v2/competitions/${id}/matches${filterYear}${filterDateFromTo}`
 
-	const response = await fetch(url, {
+	const response = await fetch(`${urlApi}/${id}/matches${filterYear}${filterDateFromTo}`, {
 		method: 'GET',
 		headers: {
 			'X-Auth-Token': API_TOKEN
@@ -78,6 +60,41 @@ export const getLeague = async (id: number | string, year?: any, dateFromTo?: an
 	}).then(function (data) {
 		return data;
 	})
-	console.log('response ', response)
+	return await response;
+}
+
+
+export const getTeams = async () => {
+
+	interface Teams {
+		id: number | string,
+		founded: number | string,
+		name: string,
+		crestUrl: string,
+		clubColors: string
+	}
+
+	const response = await fetch(`${URL_COMANDS}${TARIF}`, {
+		method: 'GET',
+		headers: {
+			'X-Auth-Token': API_TOKEN
+		}
+	}).then(function (response) {
+		return response.json();
+	}).then(function (data) {
+		return data;
+	}).then((result) => {
+		const teams = result.teams.map((team: Teams) => {
+			return {
+				id: team.id,
+				founded: team.founded,
+				name: team.name,
+				crestUrl: team.crestUrl,
+				clubColors: team.clubColors,
+			}
+		})
+		return teams;
+	})
+
 	return await response;
 }

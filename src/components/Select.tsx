@@ -30,8 +30,8 @@ const getMenuItemYers = (beforeThisYear: number) => {
 }
 
 function CustomSelect(props: any) {
-	const { getYearSeason, season, startValue, nullifyDateFromTo } = props
 
+	const { getYearSeason, season, startValue, nullifyDateFromTo } = props;
 	const classes = useStyles();
 
 	const handleChange = (event: ChangeEvent<{ value: unknown }>) => {

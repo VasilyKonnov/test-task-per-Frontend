@@ -17,6 +17,7 @@ function App(props: any) {
           <Route path="/leagues/:id/matches?season=:season" component={LeagueCalendar} />
           <Route path="/comands-list" component={ComandList} />
           <Route path="/comands" component={ComandCalendar} />
+          <Route path="/teams/:id" component={ComandCalendar} />
           <Route path="/" component={LeaguesList} />
         </Switch>
       </Layout>

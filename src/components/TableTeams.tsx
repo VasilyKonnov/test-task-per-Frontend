@@ -8,12 +8,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { matchesInterface } from '../pages/Matches';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 const StyledTableCell = withStyles((theme: Theme) =>
 	createStyles({
 		head: {
-			backgroundColor: "rgba(255,27,26, .6)",
+			backgroundColor: "rgba(52,165,221, .6)",
 			color: theme.palette.common.black,
 		},
 		body: {
@@ -21,7 +23,6 @@ const StyledTableCell = withStyles((theme: Theme) =>
 		},
 	}),
 )(TableCell);
-
 const StyledTableRow = withStyles((theme: Theme) =>
 	createStyles({
 		root: {
@@ -40,31 +41,30 @@ const useStyles = makeStyles({
 
 function TableLeagueMatches(props: any) {
 
+	const history = useHistory()
 	const { dataTable } = props;
 	const classes = useStyles()
 	return (
-		<TableContainer component={Paper} className="table-matches">
+		<TableContainer component={Paper} style={{ marginBottom: "50px" }}>
 			<Table className={classes.table} aria-label="customized table">
 				<TableHead>
 					<TableRow>
-						<StyledTableCell>Away team</StyledTableCell>
-						<StyledTableCell>Home team</StyledTableCell>
-						<StyledTableCell align="right">Winner</StyledTableCell>
-						<StyledTableCell align="right">Start date</StyledTableCell>
-						<StyledTableCell align="right">End date</StyledTableCell>
-						<StyledTableCell align="right">Status</StyledTableCell>
+						<StyledTableCell>Name</StyledTableCell>
+						<StyledTableCell>Год основания</StyledTableCell>
+						<StyledTableCell>id</StyledTableCell>
+						<StyledTableCell>Club/Colors</StyledTableCell>
+						<StyledTableCell>Logo team</StyledTableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{dataTable ?
 						dataTable.map((item: matchesInterface) => (
-							<StyledTableRow key={item.id}>
-								<StyledTableCell component="th" scope="row">{item.awayTeam}</StyledTableCell>
-								<StyledTableCell component="th" scope="row">{item.homeTeam}</StyledTableCell>
-								<StyledTableCell align="right">{item.winner}</StyledTableCell>
-								<StyledTableCell align="right">{item.startDate}</StyledTableCell>
-								<StyledTableCell align="right">{item.endDate}</StyledTableCell>
-								<StyledTableCell align="right">{item.status}</StyledTableCell>
+							<StyledTableRow className="link-team" key={item.id} onClick={() => history.push(`/teams/${item.id}`)}>
+								<StyledTableCell component="th" scope="row">{item.name}</StyledTableCell>
+								<StyledTableCell component="th" scope="row">{item.founded}</StyledTableCell>
+								<StyledTableCell component="th" scope="row">{item.id}</StyledTableCell>
+								<StyledTableCell>{item.clubColors}</StyledTableCell>
+								<StyledTableCell><img src={item.crestUrl} style={{ maxWidth: '30px' }} /></StyledTableCell>
 							</StyledTableRow>
 						))
 						:
@@ -72,7 +72,7 @@ function TableLeagueMatches(props: any) {
 					}
 				</TableBody>
 			</Table>
-		</TableContainer>
+		</TableContainer >
 	);
 }
 export default TableLeagueMatches;

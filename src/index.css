@@ -35,6 +35,14 @@ h1 svg {
   box-shadow: 0px 0px 1px -1px rgb(0 0 0 / 20%), 0px 0px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important;
 }
 
+.link-team {
+  cursor: pointer;
+}
+
+.link-team:hover {
+  box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%) !important;
+}
+
 .ItemLeagues:hover {
   box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%) !important;
 }
@@ -76,12 +84,21 @@ a.active button {
   margin-bottom: 10px;
 }
 
+.search-matches {
+  background-color: #34A5DD !important;
+  color: #fff !important;
+}
+
+.table-matches {
+  margin: 30px 0 50px 0 !important;
+}
+
 .date-pickers-wrap div div div button {
   padding: 10px 0 0 0 !important;
 }
 
 .date-pickers-wrap {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 @media (min-width: 992px) {

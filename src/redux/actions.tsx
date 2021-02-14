@@ -8,7 +8,9 @@ import {
 	NULLIFY_YEAR_SEASON,
 	GET_YEAR_SEASON,
 	GET_DATE_FROM_TO,
-	NULLIFY_DATE_FROM_TO
+	NULLIFY_DATE_FROM_TO,
+	REQUEST_TEAMS,
+	FETCH_TEAMS
 } from './types'
 
 export function showLoader() {
@@ -63,8 +65,18 @@ export function nullifyDateFromTo() {
 	}
 }
 
+export function requestTeams() {
+	return {
+		type: REQUEST_TEAMS
+	}
+}
 
-
+export function fetchTeams(payload: any) {
+	return {
+		type: FETCH_TEAMS,
+		payload: payload
+	}
+}
 
 
 

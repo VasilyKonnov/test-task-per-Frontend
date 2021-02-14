@@ -25,9 +25,8 @@ function formatDate(date: any) {
 
 const CustomDatePicker = (props: any) => {
 
-  const { nullifyDateFromTo, getDateFromTo, dateFromTo, starDateFromTo } = props;
+  const { getDateFromTo, starDateFromTo } = props;
 
-  console.log('starDateFromTo ', starDateFromTo)
 
   let startDate = new Date()
   let andDate = new Date()
@@ -47,21 +46,12 @@ const CustomDatePicker = (props: any) => {
     let to = formatDate(selectedDateTo)
 
     if (from !== 'NaN-NaN-NaN' && to !== "NaN-NaN-NaN" && from !== undefined && to !== undefined) {
-      console.log('from ', from);
-      console.log('to ', to);
 
       getDateFromTo({
         dateFrom: from,
         dateTo: to
       })
     }
-
-    // if (starDateFromTo.dateTo && starDateFromTo.dateFrom) {
-    //   getDateFromTo({
-    //     dateFrom: starDateFromTo.dateFrom,
-    //     dateTo: starDateFromTo.dateTo
-    //   })
-    // }
 
   }, [selectedDateFrom, selectedDateTo, starDateFromTo.dateTo, starDateFromTo.dateFrom, getDateFromTo]);
 

@@ -9,7 +9,6 @@ import {
 	NULLIFY_DATE_FROM_TO,
 } from "../types"
 
-// TODO: возможно стоит переименовать файл из leaguesReduser во что-то другое
 
 const initialState = {
 	leagues: [],
@@ -19,7 +18,7 @@ const initialState = {
 	dateFromTo: {}
 }
 
-const leaguesReducer = (state = initialState, action: any) => {
+const matchesReducer = (state = initialState, action: any) => {
 	switch (action.type) {
 		case FETCH_LEAGUES: {
 			return { ...state, leagues: action.payload }
@@ -34,7 +33,6 @@ const leaguesReducer = (state = initialState, action: any) => {
 			return { ...state, season: '' }
 		}
 		case GET_DATE_FROM_TO: {
-			console.log('GET_DATE_FROM_TO action ', action)
 			return { ...state, dateFromTo: action.payload }
 		}
 		case NULLIFY_DATE_FROM_TO: {
@@ -52,4 +50,4 @@ const leaguesReducer = (state = initialState, action: any) => {
 			return state
 	}
 }
-export default leaguesReducer;
+export default matchesReducer;
