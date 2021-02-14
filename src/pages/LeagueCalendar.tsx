@@ -91,6 +91,7 @@ const LeagueCalendar = (props: any) => {
 
 	const getMatchesFromTo = (id: number | string, dateFromTo: objectSearchFromTo) => {
 		nullifyYearSeason()
+		setFromTo({ dateFrom: '', dateTo: '' })
 		history.push(`?dateFrom=${dateFromTo.dateFrom}&dateTo=${dateFromTo.dateTo}`)
 		getMatches(id, null, dateFromTo)
 	}
@@ -109,11 +110,6 @@ const LeagueCalendar = (props: any) => {
 		}
 		setFromTo({ dateFrom: '', dateTo: '' })
 		setYearSeason('')
-
-
-
-		console.log('history.location.search.substr(1, 9) - ', history.location.search.substr(1, 9));
-
 
 		if (history.location.search.substr(1, 8) === 'dateFrom') {
 
@@ -145,9 +141,6 @@ const LeagueCalendar = (props: any) => {
 		} else if (id) {
 			getMatches(id);
 		}
-
-
-
 
 	}, [season, dateFromTo])
 

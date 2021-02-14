@@ -7,55 +7,42 @@ import {
 } from '@material-ui/pickers';
 import { nullifyDateFromTo, getDateFromTo } from '../redux/actions';
 
+
+function formatDate(date: any) {
+  var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2)
+    month = '0' + month;
+  if (day.length < 2)
+    day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+
 const CustomDatePicker = (props: any) => {
 
   const { nullifyDateFromTo, getDateFromTo, dateFromTo, starDateFromTo } = props;
 
+  console.log('starDateFromTo ', starDateFromTo)
 
-  // new Date(starDateFromTo.dateFrom ? starDateFromTo.dateFrom : )
-
-
-  let startDate = new Date('2021-01-15')
+  let startDate = new Date()
   let andDate = new Date()
 
   if (starDateFromTo.dateTo && starDateFromTo.dateFrom) {
-    startDate = new Date(starDateFromTo.dateTo)
-    andDate = new Date(starDateFromTo.dateFrom)
-  }
-  if (!dateFromTo.dateTo && !dateFromTo.dateFrom && !starDateFromTo.dateTo && !starDateFromTo.dateFrom) {
-    startDate = new Date('2021-01-15')
-    andDate = new Date()
+    startDate = new Date(starDateFromTo.dateFrom)
+    andDate = new Date(starDateFromTo.dateTo)
   }
 
-  console.log('starDateFromTo ', starDateFromTo)
   const [selectedDateFrom, handleDateFromChange] = useState<any>(startDate);
   const [selectedDateTo, handleDateToChange] = useState<any>(andDate);
 
 
-  function formatDate(date: any) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-
-    return [year, month, day].join('-');
-  }
-
-
-  // console.log('selectedDateTo  typeof ', typeof (selectedDateTo))
-
-
-
 
   useEffect(() => {
-
-    console.log('selectedDateTo formatDate() ', formatDate(selectedDateTo))
-
     let from = formatDate(selectedDateFrom)
     let to = formatDate(selectedDateTo)
 
@@ -69,7 +56,14 @@ const CustomDatePicker = (props: any) => {
       })
     }
 
-  }, [selectedDateFrom, selectedDateTo, starDateFromTo.dateTo, starDateFromTo.dateFrom]);
+    // if (starDateFromTo.dateTo && starDateFromTo.dateFrom) {
+    //   getDateFromTo({
+    //     dateFrom: starDateFromTo.dateFrom,
+    //     dateTo: starDateFromTo.dateTo
+    //   })
+    // }
+
+  }, [selectedDateFrom, selectedDateTo, starDateFromTo.dateTo, starDateFromTo.dateFrom, getDateFromTo]);
 
 
   return (

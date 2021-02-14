@@ -35,7 +35,6 @@ function CustomSelect(props: any) {
 	const classes = useStyles();
 
 	const handleChange = (event: ChangeEvent<{ value: unknown }>) => {
-		nullifyDateFromTo()
 		getYearSeason(event.target.value as number)
 	};
 	return (
