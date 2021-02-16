@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import ItemLeagues from "../components/ItemLeagues";
 import Warning from "../components/Warning";
 import Loading from "../components/Loading";
-import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
+import SportsSoccerRoundedIcon from '@material-ui/icons/SportsSoccerRounded';
 import Search from "../components/Search"
 import NoResultSearch from "../components/NoResultSearch";
 
@@ -62,7 +62,7 @@ const LeaguesList = (props: any) => {
 	}
 
 	return <div className="content">
-		<h1><SportsSoccerIcon /> Список Лиг</h1>
+		<h1><SportsSoccerRoundedIcon /> Список Лиг</h1>
 		<Search handleSearchValue={handleSearchValue} searchText={searchText} />
 		{displayedResult.length
 			?

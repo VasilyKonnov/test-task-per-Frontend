@@ -23,9 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
 		toolbar: {
 			padding: "0"
 		},
-		menuButton: {
-			marginRight: theme.spacing(2),
-		},
 		logo: {
 			flexGrow: 1,
 			textDecoration: "none",
@@ -72,7 +69,6 @@ export default function Header(props: any) {
 					</div>
 					<div className={"mobile-menu"}>
 						<IconButton
-							className={classes.menuButton}
 							onClick={handleClick}
 							color="inherit"
 						>

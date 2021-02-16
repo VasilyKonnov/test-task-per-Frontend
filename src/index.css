@@ -120,7 +120,7 @@ a.active button {
   }
 
   .desctop-menu a:hover {
-    opacity: 80% !important;
+    color: #D6EDF8 !important;
     transition: opacity .3s ease;
   }
 
@@ -133,9 +133,7 @@ a.active button {
   }
 
   .desctop-menu .active {
-    /* color: #13D3F5 !important; */
-    color: #fff !important;
-    opacity: 80% !important;
+    color: #D6EDF8 !important;
   }
 
 }
