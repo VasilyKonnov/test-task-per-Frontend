@@ -8,8 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { matchesInterface } from '../pages/Matches';
-import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import HighlightText from './HighlightText';
 
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -23,6 +23,7 @@ const StyledTableCell = withStyles((theme: Theme) =>
 		},
 	}),
 )(TableCell);
+
 const StyledTableRow = withStyles((theme: Theme) =>
 	createStyles({
 		root: {
@@ -40,10 +41,10 @@ const useStyles = makeStyles({
 });
 
 function TableLeagueMatches(props: any) {
-
 	const history = useHistory()
-	const { dataTable } = props;
+	const { dataTable, searchValue } = props;
 	const classes = useStyles()
+
 	return (
 		<TableContainer component={Paper} style={{ marginBottom: "50px" }}>
 			<Table className={classes.table} aria-label="customized table">
@@ -60,10 +61,10 @@ function TableLeagueMatches(props: any) {
 					{dataTable ?
 						dataTable.map((item: matchesInterface) => (
 							<StyledTableRow className="link-team" key={item.id} onClick={() => history.push(`/teams/${item.id}`)}>
-								<StyledTableCell component="th" scope="row">{item.name}</StyledTableCell>
+								<StyledTableCell component="th" scope="row"><HighlightText highlightText={searchValue}>{item.name}</HighlightText></StyledTableCell>
 								<StyledTableCell component="th" scope="row">{item.founded}</StyledTableCell>
 								<StyledTableCell component="th" scope="row">{item.id}</StyledTableCell>
-								<StyledTableCell>{item.clubColors}</StyledTableCell>
+								<StyledTableCell><HighlightText highlightText={searchValue}>{item.clubColors}</HighlightText></StyledTableCell>
 								<StyledTableCell><img src={item.crestUrl} style={{ maxWidth: '30px' }} /></StyledTableCell>
 							</StyledTableRow>
 						))
@@ -75,4 +76,5 @@ function TableLeagueMatches(props: any) {
 		</TableContainer >
 	);
 }
+
 export default TableLeagueMatches;
