@@ -9,7 +9,7 @@ import ComandList from './pages/ComandList';
 
 function App(props: any) {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL} >
       <Layout>
         <Switch>
           <Route path="/leagues" component={LeagueCalendar} />
@@ -21,7 +21,7 @@ function App(props: any) {
           <Route path="/" component={LeaguesList} />
         </Switch>
       </Layout>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 }
 
